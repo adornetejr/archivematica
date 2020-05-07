@@ -65,7 +65,7 @@ sudo -u root systemctl start archivematica-storage-service
 sudo -u root systemctl enable nginx
 sudo -u root systemctl start nginx
 sudo -u root systemctl enable rngd
-sudo -u root systemctl start rngd,
+sudo -u root systemctl start rngd
 # Archivematica Dashboard and MCP Server
 # First, install the packages
 sudo -u root yum install -y archivematica-common archivematica-mcp-server archivematica-dashboard
@@ -85,7 +85,7 @@ sudo -u root systemctl enable archivematica-mcp-server
 sudo -u root systemctl start archivematica-mcp-server
 sudo -u root systemctl enable archivematica-dashboard
 sudo -u root systemctl start archivematica-dashboard
-# Restart Nginx in order to load the dashboard 
+# Restart Nginx in order to load the dashboard
 sudo -u root systemctl restart nginx
 # Archivematica MCP client
 # Install the package
@@ -114,11 +114,10 @@ sudo firewall-cmd --add-port=8001/tcp --permanent
 sudo firewall-cmd --reload
 # Create user
 sudo -u archivematica bash -c " \
-    set -a -e -x
-    source /etc/default/archivematica-storage-service || \
-        source /etc/sysconfig/archivematica-storage-service \
-            || (echo 'Environment file not found'; exit 1)
-    cd /usr/lib/archivematica/storage-service
-    /usr/share/archivematica/virtualenvs/archivematica-storage-service/bin/python manage.py createsuperuser
-  ";
-  
+set -a -e -x
+source /etc/default/archivematica-storage-service || \
+source /etc/sysconfig/archivematica-storage-service \
+|| (echo 'Environment file not found'; exit 1)
+cd /usr/lib/archivematica/storage-service
+/usr/share/archivematica/virtualenvs/archivematica-storage-service/bin/python manage.py createsuperuser
+";
