@@ -112,7 +112,7 @@ sudo -u root systemctl restart archivematica-mcp-server
 sudo firewall-cmd --add-port=81/tcp --permanent
 sudo firewall-cmd --add-port=8001/tcp --permanent
 sudo firewall-cmd --reload
-# Create user
+# Create superuser
 sudo -u archivematica bash -c " \
 set -a -e -x
 source /etc/default/archivematica-storage-service || \
