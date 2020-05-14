@@ -1,7 +1,29 @@
+#!/bin/bash
+# stop firewalld
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl stop shibd
+sudo systemctl disable shibd
+sudo systemctl stop httpd
+sudo systemctl disable httpd
+sudo systemctl stop glassfish
+sudo systemctl disable glassfish
+sudo systemctl stop rserve
+sudo systemctl disable rserve
+sudo systemctl stop solr
+sudo systemctl disable solr
+sudo systemctl stop postgresql-9.6
+sudo systemctl disable postgresql-9.6
+sudo systemctl stop docker
+sudo systemctl disable docker
+# Add epel repository
+sudo yum install -y epel-release
 # Update package manager
-sudo yum -y update
+sudo yum update -y
 # Install semanage command
-yum install policycoreutils-python iptables-services
+sudo yum install -y policycoreutils-python iptables-services
+# add user archivematica
+useradd archivematica
 # Allow Nginx to use ports 81 and 8001
 sudo semanage port -m -t http_port_t -p tcp 81
 sudo semanage port -a -t http_port_t -p tcp 8001
@@ -10,8 +32,6 @@ sudo setsebool -P httpd_can_network_connect_db=1
 sudo setsebool -P httpd_can_network_connect=1
 # Allow Nginx to change system limits
 sudo setsebool -P httpd_setrlimit 1
-# Add epel repository
-sudo yum install -y epel-release
 # (Optional) Add Elasticsearch repository
 sudo -u root rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
 sudo -u root bash -c 'cat << EOF > /etc/yum.repos.d/elasticsearch.repo
@@ -96,9 +116,9 @@ sudo ln -sf /usr/bin/7za /usr/bin/7z
 sudo -u root sed -i 's/^#TCPSocket/TCPSocket/g' /etc/clamd.d/scan.conf
 sudo -u root sed -i 's/^Example//g' /etc/clamd.d/scan.conf
 # Indexless mode
-sudo sh -c 'echo "ARCHIVEMATICA_DASHBOARD_DASHBOARD_SEARCH_ENABLED=false" >> /etc/sysconfig/archivematica-dashboard'
-sudo sh -c 'echo "ARCHIVEMATICA_MCPSERVER_MCPSERVER_SEARCH_ENABLED=false" >> /etc/sysconfig/archivematica-mcp-server'
-sudo sh -c 'echo "ARCHIVEMATICA_MCPCLIENT_MCPCLIENT_SEARCH_ENABLED=false" >> /etc/sysconfig/archivematica-mcp-client'
+sudo sh -c 'echo "ARCHIVEMATICA_DASHBOARD_DASHBOARD_SEARCH_ENABLED=true" >> /etc/sysconfig/archivematica-dashboard'
+sudo sh -c 'echo "ARCHIVEMATICA_MCPSERVER_MCPSERVER_SEARCH_ENABLED=true" >> /etc/sysconfig/archivematica-mcp-server'
+sudo sh -c 'echo "ARCHIVEMATICA_MCPCLIENT_MCPCLIENT_SEARCH_ENABLED=true" >> /etc/sysconfig/archivematica-mcp-client'
 # After that, we can enable and start/restart services
 sudo -u root systemctl enable archivematica-mcp-client
 sudo -u root systemctl start archivematica-mcp-client
