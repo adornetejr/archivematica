@@ -1,4 +1,22 @@
 #!/bin/bash
+sudo systemctl disable nginx
+sudo systemctl stop nginx
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo systemctl enable postgresql-9.6
+sudo systemctl start postgresql-9.6
+sudo systemctl enable solr
+sudo systemctl start solr
+sudo systemctl enable rserve
+sudo systemctl start rserve
+sudo systemctl enable glassfish
+sudo systemctl start glassfish
+sudo systemctl enable httpd
+sudo systemctl start httpd
+sudo systemctl enable shibd
+sudo systemctl start shibd
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
 # stop firewalld
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
