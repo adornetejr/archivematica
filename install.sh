@@ -92,12 +92,18 @@ sudo -u root systemctl start gearmand
 # Install Archivematica Storage Service
 # First, install the packages
 sudo -u root yum install -y python-pip archivematica-storage-service
+# configure locales (my config)
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+locale-gen en_US.UTF-8
+sudo dpkg-reconfigure locales
 # Populate the SQLite database, and collect some static files used by django.
 sudo -u archivematica bash -c " \
 set -a -e -x
 source /etc/sysconfig/archivematica-storage-service
 cd /usr/lib/archivematica/storage-service
-/usr/share/archivematica/virtualenvs/archivematica-storage-service/bin/python manage.py migrate";
+/usr/share/archivematica/virtualenvs/archivematica-storage-service/bin/python manage.py migrate"
 sudo -u root systemctl enable archivematica-storage-service
 sudo -u root systemctl start archivematica-storage-service
 sudo -u root systemctl enable nginx
@@ -117,7 +123,7 @@ set -a -e -x
 source /etc/sysconfig/archivematica-dashboard
 cd /usr/share/archivematica/dashboard
 /usr/share/archivematica/virtualenvs/archivematica-dashboard/bin/python manage.py migrate
-";
+"
 # Start and enable services
 sudo -u root systemctl enable archivematica-mcp-server
 sudo -u root systemctl start archivematica-mcp-server
@@ -158,4 +164,4 @@ source /etc/sysconfig/archivematica-storage-service \
 || (echo 'Environment file not found'; exit 1)
 cd /usr/lib/archivematica/storage-service
 /usr/share/archivematica/virtualenvs/archivematica-storage-service/bin/python manage.py createsuperuser
-";
+"
