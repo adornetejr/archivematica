@@ -1,6 +1,28 @@
 #!/bin/bash
+#stop archivematica
 sudo systemctl disable nginx
 sudo systemctl stop nginx
+sudo systemctl disable archivematica-dashboard
+sudo systemctl stop archivematica-dashboard
+sudo systemctl disable archivematica-mcp-client
+sudo systemctl stop archivematica-mcp-client
+sudo systemctl disable archivematica-mcp-server
+sudo systemctl stop archivematica-mcp-server
+sudo systemctl disable archivematica-storage-service
+sudo systemctl stop archivematica-storage-service
+sudo systemctl disable fits-nailgun
+sudo systemctl stop fits-nailgun
+sudo systemctl disable clamd@scan
+sudo systemctl stop clamd@scan
+sudo systemctl disable rngd
+sudo systemctl stop rngd
+sudo systemctl disable elasticsearch
+sudo systemctl stop elasticsearch
+sudo systemctl disable mariadb
+sudo systemctl stop mariadb
+sudo systemctl disable gearmand
+sudo systemctl stop gearmand
+# start dataverse
 sudo systemctl enable docker
 sudo systemctl start docker
 sudo systemctl enable postgresql-9.6
@@ -17,7 +39,7 @@ sudo systemctl enable shibd
 sudo systemctl start shibd
 sudo systemctl enable firewalld
 sudo systemctl start firewalld
-# stop firewalld
+# stop archivematica
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 sudo systemctl stop shibd
